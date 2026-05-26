@@ -1,0 +1,14 @@
+.env
+
+venv/
+
+.git/
+
+myenv/
+
+build/
+
+dist/
+
+__pycache__/
+*.pyc

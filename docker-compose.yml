@@ -1,0 +1,12 @@
+services:
+
+  sample_api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: sampleroom-be
+    env_file:
+      - .env
+    ports:
+      - 5008:5008
+    restart: always
