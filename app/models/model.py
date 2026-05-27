@@ -34,6 +34,9 @@ class MasterPlan(BaseModel):
     qty: int | None = None
     status: str | None = None
     smv: float | None = None
+    bonding: int | None = None
+    printing: int | None = None
+    shipment: date | None = None
 
 class HomeDataResponse(BaseModel):
     overview: Overview
