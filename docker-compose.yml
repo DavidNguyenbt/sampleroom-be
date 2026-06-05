@@ -5,8 +5,14 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     container_name: sampleroom-be
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
+    secrets:
+      - env
     ports:
       - 5008:5008
     restart: always
+
+secrets:
+  env:
+    file: .env

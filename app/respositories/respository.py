@@ -28,6 +28,9 @@ class ParamConfigRepository:
 
         results = []
 
+        print(settings.DB_USER)
+        print(settings.DB_PASSWORD)
+
         try:
             with self.connect() as conn:
                 with conn.cursor() as cursor:
