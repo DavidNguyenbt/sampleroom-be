@@ -2,12 +2,9 @@ import os
 
 import uvicorn
 from fastapi import FastAPI
-import asyncio
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import StreamingResponse
 from fastapi.openapi.utils import get_openapi
-from app.api.endpoints.homedata import homedata_router
+from app.api.router import api_router
 
 def custom_openapi():
     if app.openapi_schema:
@@ -47,7 +44,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(homedata_router, prefix="/api/v2", tags=[""])
+app.include_router(api_router, prefix="/api/v2")
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=5008, reload=True)
+    uvicorn.run("app.main:app", port=5008, reload=True)

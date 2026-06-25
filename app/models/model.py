@@ -45,3 +45,31 @@ class HomeDataResponse(BaseModel):
     in_production: InProduction
     completed: Completed
     master_plan: List[MasterPlan]
+
+class ManpowerData(BaseModel):
+    RecNo: int
+    Customer: str
+    Department: str
+    Section: str
+    EmployeeID: str
+    EmployeeName: str
+    Position: str
+    SysCreatedDate: date
+    SysLMDate: date
+    SysLMBy: str
+
+
+class ManpowerCreateData(BaseModel):
+    Customer: str
+    Department: str
+    Section: str
+    EmployeeID: str
+    EmployeeName: str
+    Position: str
+    SysLMBy: str
+
+class EmployeeData(BaseModel):
+    ID: str
+    Name: str
+    Department: str
+    Position: str

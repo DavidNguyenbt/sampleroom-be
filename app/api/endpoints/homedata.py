@@ -1,17 +1,24 @@
-from app.core.ResponseApi import ResponseAPI
-from fastapi import APIRouter, HTTPException
-from app.respositories.respository import ParamConfigRepository
+from fastapi import APIRouter, Depends, HTTPException
 from app.models.model import HomeDataResponse
+from app.services.home_data_service import HomeDataService
 
 homedata_router = APIRouter()
 
-@homedata_router.get("/home-data/{type}/{brand}/{month}", response_model=HomeDataResponse)
-def get_home_data(type: int, brand: str, month: str):
-    repo = ParamConfigRepository()
+
+def get_home_data_service() -> HomeDataService:
+    return HomeDataService()
+
+
+@homedata_router.get("/home-data/{brand}/{month}", response_model=HomeDataResponse)
+def get_home_data(
+    brand: str,
+    month: str,
+    service: HomeDataService = Depends(get_home_data_service),
+):
     try:
-        return repo.get_dashboard(type=type, brand=brand, month=month)
-    except Exception as e:
+        return service.get_home_data(brand=brand, month=month)
+    except RuntimeError as e:
         raise HTTPException(
             status_code=500,
-            detail=str(e)
+            detail=str(e),
         )
