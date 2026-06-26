@@ -1,5 +1,5 @@
 from typing import List
-from datetime import date
+from datetime import date, datetime
 
 from pydantic import BaseModel
 
@@ -54,10 +54,9 @@ class ManpowerData(BaseModel):
     EmployeeID: str
     EmployeeName: str
     Position: str
-    SysCreatedDate: date
-    SysLMDate: date
+    SysCreatedDate: datetime
+    SysLMDate: datetime
     SysLMBy: str
-
 
 class ManpowerCreateData(BaseModel):
     Customer: str
