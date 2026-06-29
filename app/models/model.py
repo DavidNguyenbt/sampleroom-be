@@ -72,3 +72,20 @@ class EmployeeData(BaseModel):
     Name: str
     Department: str
     Position: str
+
+class ManpowerUpdateData(BaseModel):
+    RecNo: int
+    Department: str
+    Section: str
+    Position: str
+    SysLMBy: str
+
+class ManpowerDeleteData(BaseModel):
+    RecNo: int
+    SysLMBy: str
+
+class ManpowerInsertAbsentData(BaseModel):
+    EmployeeID: str
+    FromDate: date
+    ToDate: date
+    SysCreatedBy: str

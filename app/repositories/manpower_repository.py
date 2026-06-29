@@ -1,6 +1,6 @@
 from typing import Any
 
-from app.models.model import ManpowerCreateData, ManpowerData
+from app.models.model import ManpowerCreateData, ManpowerData, ManpowerDeleteData, ManpowerInsertAbsentData, ManpowerUpdateData
 from app.repositories.base_repository import BaseRepository
 
 
@@ -44,5 +44,52 @@ class ManpowerRepository(BaseRepository):
             manpower.EmployeeName,
             manpower.Position,
             manpower.SysLMBy,
+        )
+        return self.execute_non_query(query=query, params=params)
+
+    def update_manpower(self, manpower: ManpowerUpdateData) -> int:
+        query = """
+        UPDATE [dbo].[SampleRoomManpower]
+        SET
+            [Department] = ?,
+            [Section] = ?,
+            [Position] = ?,
+            [SysLMDate] = GETDATE(),
+            [SysLMBy] = ?
+        WHERE [RecNo] = ?
+        """
+        params = (
+            manpower.Department,
+            manpower.Section,
+            manpower.Position,
+            manpower.SysLMBy,
+            manpower.RecNo,
+        )
+        return self.execute_non_query(query=query, params=params)
+
+    def delete_manpower(self, data: ManpowerDeleteData) -> int:
+        query = """
+        EXEC api.SampleRoomQuery 4,?, ?, ''
+        """
+        params = (data.RecNo, data.SysLMBy)
+        return self.execute_non_query(query=query, params=params)
+
+    def insert_absent_data(self, data: ManpowerInsertAbsentData) -> int:
+        query = """
+        INSERT INTO [dbo].[SampleRoomManpowerAbsent]
+        (
+            [EmployeeID],
+            [FromDate],
+            [ToDate],
+            [SysCreatedDate],
+            [SysCreatedBy]
+        )
+        VALUES (?, ?, ?, GETDATE(), ?)
+        """
+        params = (
+            data.EmployeeID,
+            data.FromDate,
+            data.ToDate,
+            data.SysCreatedBy,
         )
         return self.execute_non_query(query=query, params=params)
