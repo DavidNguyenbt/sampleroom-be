@@ -1,4 +1,4 @@
-from app.models.model import ManpowerCreateData, ManpowerData, ManpowerDeleteData, ManpowerInsertAbsentData, ManpowerUpdateData
+from app.models.model import ManpowerCreateData, ManpowerData, ManpowerDataResponse, ManpowerDeleteData, ManpowerInsertAbsentData, ManpowerUpdateData
 from app.repositories.manpower_repository import ManpowerRepository
 
 
@@ -9,7 +9,7 @@ class ManpowerService:
     def get_manpower_data(
         self,
         brand: str,
-    ) -> list[ManpowerData]:
+    ) -> ManpowerDataResponse:
         params = (brand,)
         return self.repository.get_manpower_data(params=params)
 

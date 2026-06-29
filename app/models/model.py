@@ -89,3 +89,25 @@ class ManpowerInsertAbsentData(BaseModel):
     FromDate: date
     ToDate: date
     SysCreatedBy: str
+
+class ManpowerAbsentData(BaseModel):
+    RecNo: int
+    EmployeeID: str
+    FromDate: date
+    ToDate: date
+    SysCreatedDate: datetime
+    SysCreatedBy: str
+
+class ManpowerOperatorData(BaseModel):
+    RecNo: str
+    DocNo: str
+    Department: str
+    Section: str
+    Operator: str
+    CreatedDate: datetime
+    CreatedBy: str
+
+class ManpowerDataResponse(BaseModel):
+    manpower: List[ManpowerData]
+    absent: List[ManpowerAbsentData]
+    operator: List[ManpowerOperatorData]

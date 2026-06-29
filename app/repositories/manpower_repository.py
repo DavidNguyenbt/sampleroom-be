@@ -1,6 +1,6 @@
 from typing import Any
 
-from app.models.model import ManpowerCreateData, ManpowerData, ManpowerDeleteData, ManpowerInsertAbsentData, ManpowerUpdateData
+from app.models.model import ManpowerCreateData, ManpowerDataResponse, ManpowerAbsentData, ManpowerData, ManpowerDeleteData, ManpowerInsertAbsentData, ManpowerOperatorData, ManpowerUpdateData
 from app.repositories.base_repository import BaseRepository
 
 
@@ -8,16 +8,20 @@ class ManpowerRepository(BaseRepository):
     def get_manpower_data(
         self,
         params: tuple[Any, ...],
-    ) -> list[ManpowerData]:
+    ) -> ManpowerDataResponse:
         query = """
         EXEC [api].[SampleRoomQuery] 3,?,'',''
         """
         results = self.execute_query(query=query, params=params)
 
         if not results:
-            return []
+            return ManpowerDataResponse(manpower=[], absent=[], operator=[])
 
-        return [ManpowerData(**row) for row in results[0]]
+        return ManpowerDataResponse(
+            manpower=[ManpowerData(**row) for row in results[0]],
+            absent=[ManpowerAbsentData(**row) for row in results[1]],
+            operator=[ManpowerOperatorData(**row) for row in results[2]],
+        )
 
     def insert_manpower_data(self, manpower: ManpowerCreateData) -> int:
         query = """

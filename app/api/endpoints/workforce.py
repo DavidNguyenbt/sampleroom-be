@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.models.model import EmployeeData, ManpowerCreateData, ManpowerData, ManpowerDeleteData, ManpowerInsertAbsentData, ManpowerUpdateData
+from app.models.model import EmployeeData, ManpowerCreateData, ManpowerData, ManpowerDataResponse, ManpowerDeleteData, ManpowerInsertAbsentData, ManpowerUpdateData
 from app.services.employee_service import EmployeeService
 from app.services.manpower_service import ManpowerService
 
@@ -18,7 +18,7 @@ def get_employee_service() -> EmployeeService:
 
 @workforce_router.get(
     "/manpower/{brand}",
-    response_model=list[ManpowerData],
+    response_model=ManpowerDataResponse,
 )
 def get_manpower_data(
     brand: str,
