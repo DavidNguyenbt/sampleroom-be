@@ -11,7 +11,7 @@ class HomeDataRepository(BaseRepository):
     ) -> HomeDataResponse:
 
         query = """
-        EXEC [api].[SampleRoomQuery] 1,?,?,''
+        EXEC [api].[SampleRoomQuery] 1,?,?,'','',''
         """
 
         params = (brand, month)

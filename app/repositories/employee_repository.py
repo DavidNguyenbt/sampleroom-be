@@ -10,7 +10,7 @@ class EmployeeRepository(BaseRepository):
         params: tuple[Any, ...],
     ) -> list[EmployeeData]:
         query = """
-        EXEC [api].[SampleRoomQuery] 2,?,'',''
+        EXEC [api].[SampleRoomQuery] 2,?,'','','',''
         """
         results = self.execute_query(query=query, params=params)
 

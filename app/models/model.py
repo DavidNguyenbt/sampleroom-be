@@ -111,3 +111,33 @@ class ManpowerDataResponse(BaseModel):
     manpower: List[ManpowerData]
     absent: List[ManpowerAbsentData]
     operator: List[ManpowerOperatorData]
+
+class PatternDataResponse(BaseModel):
+    order_date: date | None = None
+    sample_number: str | None = None
+    style: str | None = None
+    season: str | None = None
+    sample_owner: str | None = None
+    qty: int | None = None
+    pattern: date | None = None
+
+class CreateProductionData(BaseModel):
+    customer: str
+    department: str
+    section: str
+    doc_no: str
+    user_id: str
+
+class ProductionResponse(BaseModel):
+    production_id: str
+
+class ProductionProgressResponse(BaseModel):
+    order_date: date | None = None
+    style: str | None = None
+    season: str | None = None
+    qty: int | None = None
+    smv: float | None = None
+    starttime: datetime | None = None
+    finishtime: datetime | None = None
+    duration: float | None = None
+    downtime: float | None = None

@@ -10,7 +10,7 @@ class ManpowerRepository(BaseRepository):
         params: tuple[Any, ...],
     ) -> ManpowerDataResponse:
         query = """
-        EXEC [api].[SampleRoomQuery] 3,?,'',''
+        EXEC [api].[SampleRoomQuery] 3,?,'','','',''
         """
         results = self.execute_query(query=query, params=params)
 
@@ -73,7 +73,7 @@ class ManpowerRepository(BaseRepository):
 
     def delete_manpower(self, data: ManpowerDeleteData) -> int:
         query = """
-        EXEC api.SampleRoomQuery 4,?, ?, ''
+        EXEC api.SampleRoomQuery 4,?, ?, '', '', ''
         """
         params = (data.RecNo, data.SysLMBy)
         return self.execute_non_query(query=query, params=params)

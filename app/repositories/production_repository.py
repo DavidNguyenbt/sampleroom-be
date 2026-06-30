@@ -1,0 +1,45 @@
+from app.models.model import CreateProductionData, ProductionProgressResponse, ProductionResponse, PatternDataResponse
+from app.repositories.base_repository import BaseRepository
+
+class ProductionRepository(BaseRepository):
+    def create_production(self, data: CreateProductionData) -> ProductionResponse:
+        query = """
+        EXEC [api].[SampleRoomQuery] 5, ?, ?, ?, ?, ?
+        """
+        params = (
+            data.customer,
+            data.doc_no,
+            data.department,
+            data.user_id,
+            data.section,
+        )
+        results = self.execute_query(query=query, params=params)
+
+        if not results or not results[0]:
+            raise RuntimeError("Failed to create production record")
+
+        return ProductionResponse(**results[0][0])
+
+    def get_pattern_data(self, brand: str, month: str) -> list[PatternDataResponse]:
+        query = """
+        EXEC [api].[SampleRoomQuery] 6, ?, ?, '', '', ''
+        """
+        params = (brand, month)
+        results = self.execute_query(query=query, params=params)
+
+        if not results or not results[0]:
+            raise RuntimeError("No pattern data found")
+
+        return [PatternDataResponse(**row) for row in results[0]]
+
+    def get_production_progress(self, customer: str, department: str) -> ProductionProgressResponse:
+        query = """
+        EXEC [api].[SampleRoomQuery] 7, ?, ?, '', '', ''
+        """
+        params = (customer, department)
+        results = self.execute_query(query=query, params=params)
+
+        if not results or not results[0]:
+            raise RuntimeError("No production progress data found")
+
+        return ProductionProgressResponse(**results[0][0])
