@@ -13,3 +13,6 @@ class ProductionService:
 
     def get_production_progress(self, customer: str, department: str) -> ProductionProgressResponse:
         return self.production_repository.get_production_progress(customer, department)
+
+    def update_pattern_data(self, sample_number: str, receive_date: str) -> int:
+        return self.production_repository.update_pattern_data(sample_number, receive_date)

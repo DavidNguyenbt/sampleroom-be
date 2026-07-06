@@ -43,3 +43,16 @@ class ProductionRepository(BaseRepository):
             raise RuntimeError("No production progress data found")
 
         return ProductionProgressResponse(**results[0][0])
+
+    def update_pattern_data(self, sample_number: str, receive_date: str) -> int:
+        query = """
+        UPDATE [dbo].[smomstr2]
+        SET
+            [PatternReturn] =
+        WHERE [DocNo] = ?
+        """
+        params = (
+            receive_date,
+            sample_number,
+        )
+        return self.execute_non_query(query=query, params=params)  

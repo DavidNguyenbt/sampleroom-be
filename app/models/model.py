@@ -132,6 +132,7 @@ class ProductionResponse(BaseModel):
     production_id: str
 
 class ProductionProgressResponse(BaseModel):
+    production_id: str
     order_date: date | None = None
     style: str | None = None
     season: str | None = None

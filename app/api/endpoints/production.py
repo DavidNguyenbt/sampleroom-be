@@ -53,3 +53,17 @@ def get_production_progress(
             status_code=500,
             detail=str(e),
         )
+
+@production_router.put("/pattern/{sample_number}/{receive_date}", response_model=int)
+def update_pattern_data(
+    sample_number: str,
+    receive_date: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        return service.update_pattern_data(sample_number=sample_number, receive_date=receive_date)
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
