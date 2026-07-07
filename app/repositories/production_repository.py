@@ -1,4 +1,4 @@
-from app.models.model import CreateProductionData, ProductionProgressResponse, ProductionResponse, PatternDataResponse
+from app.models.model import CreateProductionData, DocnoDataResponse, ProductionProgressResponse, ProductionResponse, PatternDataResponse
 from app.repositories.base_repository import BaseRepository
 
 class ProductionRepository(BaseRepository):
@@ -56,3 +56,22 @@ class ProductionRepository(BaseRepository):
             sample_number,
         )
         return self.execute_non_query(query=query, params=params)  
+
+    def get_docno_data(self, doc_no: str) -> DocnoDataResponse:
+        query = """
+        EXEC [api].[SampleRoomQuery] 8, ?, '', '', '', ''
+        """
+        params = (doc_no,)
+        results = self.execute_query(query=query, params=params)
+
+        if not results or not results[0]:
+            raise RuntimeError("No docno data found")
+
+        return DocnoDataResponse(**results[0][0])
+
+    def insert_operator_data(self, production_id: str, operator: str, created_by: str) -> None:
+        query = """
+        EXEC [api].[SampleRoomQuery] 9, ?, ?, ?, '', ''
+        """
+        params = (production_id, operator, created_by)
+        self.execute_non_query(query=query, params=params)

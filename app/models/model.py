@@ -142,3 +142,14 @@ class ProductionProgressResponse(BaseModel):
     finishtime: datetime | None = None
     duration: float | None = None
     downtime: float | None = None
+
+class CreateOperatorData(BaseModel):
+    production_id: str
+    operator: str
+    created_by: str
+
+class DocnoDataResponse(BaseModel):
+    doc_no: str
+    style: str
+    season: str
+    qty: int

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.models.model import CreateProductionData, ProductionProgressResponse, ProductionResponse, PatternDataResponse
+from app.models.model import CreateOperatorData, CreateProductionData, DocnoDataResponse, ProductionProgressResponse, ProductionResponse, PatternDataResponse
 from app.services.production_service import ProductionService
 
 production_router = APIRouter()
@@ -62,6 +62,35 @@ def update_pattern_data(
 ):
     try:
         return service.update_pattern_data(sample_number=sample_number, receive_date=receive_date)
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
+
+@production_router.get("/docno/{doc_no}", response_model=DocnoDataResponse)
+def get_docno_data(
+    doc_no: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        return service.get_docno_data(doc_no=doc_no)
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
+
+@production_router.post("/operator", response_model=CreateOperatorData)
+def insert_operator_data(
+    production_id: str,
+    operator: str,
+    created_by: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        service.insert_operator_data(production_id=production_id, operator=operator, created_by=created_by)
+        return CreateOperatorData(production_id=production_id, operator=operator, created_by=created_by)
     except RuntimeError as e:
         raise HTTPException(
             status_code=500,

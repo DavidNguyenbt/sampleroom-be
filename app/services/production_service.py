@@ -16,3 +16,9 @@ class ProductionService:
 
     def update_pattern_data(self, sample_number: str, receive_date: str) -> int:
         return self.production_repository.update_pattern_data(sample_number, receive_date)
+
+    def get_docno_data(self, doc_no: str):
+        return self.production_repository.get_docno_data(doc_no)
+
+    def insert_operator_data(self, production_id: str, operator: str, created_by: str) -> None:
+        self.production_repository.insert_operator_data(production_id, operator, created_by)
