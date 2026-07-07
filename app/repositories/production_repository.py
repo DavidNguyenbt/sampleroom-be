@@ -32,7 +32,7 @@ class ProductionRepository(BaseRepository):
 
         return [PatternDataResponse(**row) for row in results[0]]
 
-    def get_production_progress(self, customer: str, department: str) -> ProductionProgressResponse:
+    def get_production_progress(self, customer: str, department: str) -> list[ProductionProgressResponse]:
         query = """
         EXEC [api].[SampleRoomQuery] 7, ?, ?, '', '', ''
         """
@@ -42,7 +42,7 @@ class ProductionRepository(BaseRepository):
         if not results or not results[0]:
             raise RuntimeError("No production progress data found")
 
-        return ProductionProgressResponse(**results[0][0])
+        return [ProductionProgressResponse(**row) for row in results[0]]
 
     def update_pattern_data(self, sample_number: str, receive_date: str) -> int:
         query = """
