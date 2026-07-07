@@ -40,7 +40,7 @@ def get_pattern_data(
             detail=str(e),
         )
 
-@production_router.get("/production_progress/{customer}/{department}", response_model=ProductionProgressResponse)
+@production_router.get("/production_progress/{customer}/{department}", response_model=list[ProductionProgressResponse])
 def get_production_progress(
     customer: str,
     department: str,
