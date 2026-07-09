@@ -1,5 +1,5 @@
 from app.repositories.production_repository import ProductionRepository
-from app.models.model import CreateProductionData, ProductionProgressResponse, ProductionResponse, PatternDataResponse
+from app.models.model import CreateProductionData, ProductionProgressResponse, ProductionResponse, PatternDataResponse, ManpowerOperatorData
 
 class ProductionService:
     def __init__(self, production_repository: ProductionRepository | None = None):
@@ -11,7 +11,7 @@ class ProductionService:
     def get_pattern_data(self, brand: str, month: str) -> list[PatternDataResponse]:
         return self.production_repository.get_pattern_data(brand, month)
 
-    def get_production_progress(self, customer: str, department: str) -> ProductionProgressResponse:
+    def get_production_progress(self, customer: str, department: str) -> list[ProductionProgressResponse]:
         return self.production_repository.get_production_progress(customer, department)
 
     def update_pattern_data(self, sample_number: str, receive_date: str) -> int:
@@ -22,3 +22,9 @@ class ProductionService:
 
     def insert_operator_data(self, production_id: str, operator: str, created_by: str) -> None:
         self.production_repository.insert_operator_data(production_id, operator, created_by)
+
+    def get_operator_data(self, production_id: str) -> list[ManpowerOperatorData]:
+        return self.production_repository.get_operator_data(production_id)
+
+    def remove_operator_data(self, production_id: str, operator: str, removed_by: str) -> None:
+        self.production_repository.remove_operator_data(production_id, operator, removed_by)

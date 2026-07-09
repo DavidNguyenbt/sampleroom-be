@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.models.model import CreateOperatorData, CreateProductionData, DocnoDataResponse, ProductionProgressResponse, ProductionResponse, PatternDataResponse
+from app.models.model import CreateOperatorData, CreateProductionData, DocnoDataResponse, ManpowerOperatorData, ProductionProgressResponse, ProductionResponse, PatternDataResponse
 from app.services.production_service import ProductionService
 
 production_router = APIRouter()
@@ -91,6 +91,35 @@ def insert_operator_data(
     try:
         service.insert_operator_data(production_id=production_id, operator=operator, created_by=created_by)
         return CreateOperatorData(production_id=production_id, operator=operator, created_by=created_by)
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
+
+@production_router.get("/operator/{production_id}", response_model=list[ManpowerOperatorData])
+def get_operator_data(
+    production_id: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        return service.get_operator_data(production_id=production_id)
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
+
+@production_router.delete("/operator/{production_id}/{operator}/{removed_by}", response_model=None)
+def remove_operator_data(
+    production_id: str,
+    operator: str,
+    removed_by: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        service.remove_operator_data(production_id=production_id, operator=operator, removed_by=removed_by)
+        return None
     except RuntimeError as e:
         raise HTTPException(
             status_code=500,

@@ -99,10 +99,8 @@ class ManpowerAbsentData(BaseModel):
     SysCreatedBy: str
 
 class ManpowerOperatorData(BaseModel):
-    RecNo: str
-    DocNo: str
-    Department: str
-    Section: str
+    RecNo: int
+    ProductionID: str
     Operator: str
     CreatedDate: datetime
     CreatedBy: str
@@ -141,6 +139,7 @@ class ProductionProgressResponse(BaseModel):
     starttime: datetime | None = None
     finishtime: datetime | None = None
     duration: float | None = None
+    manpower: int | None = None
     downtime: float | None = None
 
 class CreateOperatorData(BaseModel):
@@ -153,3 +152,8 @@ class DocnoDataResponse(BaseModel):
     style: str
     season: str
     qty: int
+
+class OperatorRemoveData(BaseModel):
+    production_id: str
+    operator: str
+    removed_by: str

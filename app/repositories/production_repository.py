@@ -1,4 +1,4 @@
-from app.models.model import CreateProductionData, DocnoDataResponse, ProductionProgressResponse, ProductionResponse, PatternDataResponse
+from app.models.model import CreateProductionData, DocnoDataResponse, ManpowerOperatorData, ProductionProgressResponse, ProductionResponse, PatternDataResponse
 from app.repositories.base_repository import BaseRepository
 
 class ProductionRepository(BaseRepository):
@@ -74,4 +74,23 @@ class ProductionRepository(BaseRepository):
         EXEC [api].[SampleRoomQuery] 9, ?, ?, ?, '', ''
         """
         params = (production_id, operator, created_by)
+        self.execute_non_query(query=query, params=params)
+
+    def get_operator_data(self, production_id: str) -> list[ManpowerOperatorData]:
+        query = """
+        EXEC [api].[SampleRoomQuery] 10, ?, '', '', '', ''
+        """
+        params = (production_id,)
+        results = self.execute_query(query=query, params=params)
+
+        if not results or not results[0]:
+            raise RuntimeError("No operator data found")
+
+        return [ManpowerOperatorData(**row) for row in results[0]]
+
+    def remove_operator_data(self, production_id: str, operator: str, removed_by: str) -> None:
+        query = """
+        EXEC [api].[SampleRoomQuery] 11, ?, ?, ?, '', ''
+        """
+        params = (production_id, operator, removed_by)
         self.execute_non_query(query=query, params=params)
