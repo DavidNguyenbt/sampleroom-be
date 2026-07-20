@@ -101,3 +101,28 @@ class ProductionRepository(BaseRepository):
         """
         params = (production_id, removed_by)
         self.execute_non_query(query=query, params=params)
+
+    def update_production_data(self, production_id: str, updated_by: str, customer: str, department: str) -> None:
+        query = """
+        EXEC [api].[SampleRoomQuery] 13, ?, ?, ?, ?, ''
+        """
+        params = (production_id, updated_by, customer, department)
+        self.execute_non_query(query=query, params=params)
+
+    def check_production_progress_exists(self, production_id: str) -> bool:
+        query = """
+        EXEC [api].[SampleRoomQuery] 14, ?, '', '', '', ''
+        """
+        params = (production_id,)
+        results = self.execute_query(query=query, params=params)
+
+        return bool(results and results[0])
+
+    def check_production_exists(self, docno: str) -> bool:
+        query = """
+        EXEC [api].[SampleRoomQuery] 15, ?, '', '', '', ''
+        """
+        params = (docno,)
+        results = self.execute_query(query=query, params=params)
+
+        return bool(results and results[0])

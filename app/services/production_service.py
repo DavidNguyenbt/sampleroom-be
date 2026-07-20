@@ -31,3 +31,12 @@ class ProductionService:
 
     def remove_production_data(self, production_id: str, removed_by: str) -> None:
         self.production_repository.remove_production_data(production_id, removed_by)
+
+    def update_production_data(self, production_id: str, updated_by: str, customer: str, department: str) -> None:
+        self.production_repository.update_production_data(production_id, updated_by, customer, department)
+
+    def check_production_progress_exists(self, production_id: str) -> bool:
+        return self.production_repository.check_production_progress_exists(production_id)
+
+    def check_production_exists(self, docno: str) -> bool:
+        return self.production_repository.check_production_exists(docno)

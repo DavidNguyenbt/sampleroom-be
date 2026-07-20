@@ -140,3 +140,45 @@ def remove_production_data(
             status_code=500,
             detail=str(e),
         )
+
+@production_router.put("/production/{production_id}/{updated_by}/{customer}/{department}", response_model=None)
+def update_production_data(
+    production_id: str,
+    updated_by: str,
+    customer: str,
+    department: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        service.update_production_data(production_id=production_id, updated_by=updated_by, customer=customer, department=department)
+        return None
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
+@production_router.get("/production_exists/{docno}", response_model=bool)
+def check_production_exists(
+    docno: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        return service.check_production_exists(docno=docno)
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )  
+
+@production_router.get("/production_progress_exists/{production_id}", response_model=bool)
+def check_production_progress_exists(
+    production_id: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        return service.check_production_progress_exists(production_id=production_id)
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
