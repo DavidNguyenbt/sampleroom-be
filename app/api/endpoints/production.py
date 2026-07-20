@@ -157,26 +157,29 @@ def update_production_data(
             status_code=500,
             detail=str(e),
         )
-@production_router.get("/production_exists/{docno}", response_model=bool)
+@production_router.get("/production_exists/{docno}/{customer}", response_model=bool)
 def check_production_exists(
     docno: str,
+    customer: str,
     service: ProductionService = Depends(get_production_service),
 ):
     try:
-        return service.check_production_exists(docno=docno)
+        return service.check_production_exists(docno=docno, customer=customer)
     except RuntimeError as e:
         raise HTTPException(
             status_code=500,
             detail=str(e),
         )  
 
-@production_router.get("/production_progress_exists/{production_id}", response_model=bool)
+@production_router.get("/production_progress_exists/{docno}/{department}/{customer}", response_model=bool)
 def check_production_progress_exists(
-    production_id: str,
+    docno: str,
+    department: str,
+    customer: str,
     service: ProductionService = Depends(get_production_service),
 ):
     try:
-        return service.check_production_progress_exists(production_id=production_id)
+        return service.check_production_progress_exists(docno=docno, department=department, customer=customer)
     except RuntimeError as e:
         raise HTTPException(
             status_code=500,

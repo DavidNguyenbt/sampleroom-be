@@ -109,20 +109,20 @@ class ProductionRepository(BaseRepository):
         params = (production_id, updated_by, customer, department)
         self.execute_non_query(query=query, params=params)
 
-    def check_production_progress_exists(self, production_id: str) -> bool:
+    def check_production_progress_exists(self, docno: str, department: str, customer: str) -> bool:
         query = """
-        EXEC [api].[SampleRoomQuery] 14, ?, '', '', '', ''
+        EXEC [api].[SampleRoomQuery] 14, ?, ?, ?, '', ''
         """
-        params = (production_id,)
+        params = (docno, department, customer)
         results = self.execute_query(query=query, params=params)
 
         return bool(results and results[0])
 
-    def check_production_exists(self, docno: str) -> bool:
+    def check_production_exists(self, docno: str, customer: str) -> bool:
         query = """
-        EXEC [api].[SampleRoomQuery] 15, ?, '', '', '', ''
+        EXEC [api].[SampleRoomQuery] 15, ?, ?, '', '', ''
         """
-        params = (docno,)
+        params = (docno, customer)
         results = self.execute_query(query=query, params=params)
 
         return bool(results and results[0])

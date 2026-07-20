@@ -35,8 +35,8 @@ class ProductionService:
     def update_production_data(self, production_id: str, updated_by: str, customer: str, department: str) -> None:
         self.production_repository.update_production_data(production_id, updated_by, customer, department)
 
-    def check_production_progress_exists(self, production_id: str) -> bool:
-        return self.production_repository.check_production_progress_exists(production_id)
+    def check_production_progress_exists(self, docno: str, department: str, customer: str) -> bool:
+        return self.production_repository.check_production_progress_exists(docno, department, customer)
 
-    def check_production_exists(self, docno: str) -> bool:
-        return self.production_repository.check_production_exists(docno)
+    def check_production_exists(self, docno: str, customer: str) -> bool:
+        return self.production_repository.check_production_exists(docno, customer)
