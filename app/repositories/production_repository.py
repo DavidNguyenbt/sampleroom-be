@@ -94,3 +94,10 @@ class ProductionRepository(BaseRepository):
         """
         params = (production_id, operator, removed_by)
         self.execute_non_query(query=query, params=params)
+
+    def remove_production_data(self, production_id: str, removed_by: str) -> None:
+        query = """
+        EXEC [api].[SampleRoomQuery] 12, ?, ?, '', '', ''
+        """
+        params = (production_id, removed_by)
+        self.execute_non_query(query=query, params=params)

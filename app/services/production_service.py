@@ -28,3 +28,6 @@ class ProductionService:
 
     def remove_operator_data(self, production_id: str, operator: str, removed_by: str) -> None:
         self.production_repository.remove_operator_data(production_id, operator, removed_by)
+
+    def remove_production_data(self, production_id: str, removed_by: str) -> None:
+        self.production_repository.remove_production_data(production_id, removed_by)

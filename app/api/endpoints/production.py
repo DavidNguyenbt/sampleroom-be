@@ -125,3 +125,18 @@ def remove_operator_data(
             status_code=500,
             detail=str(e),
         )
+
+@production_router.delete("/production/{production_id}/{removed_by}", response_model=None)
+def remove_production_data(
+    production_id: str,
+    removed_by: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        service.remove_production_data(production_id=production_id, removed_by=removed_by)
+        return None
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
