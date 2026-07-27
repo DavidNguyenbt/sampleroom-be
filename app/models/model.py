@@ -138,7 +138,9 @@ class ProductionProgressResponse(BaseModel):
     smv: float | None = None
     starttime: datetime | None = None
     finishtime: datetime | None = None
+    operationtime: float | None = None
     duration: float | None = None
+    status: str | None = None
     manpower: int | None = None
     downtime: float | None = None
 
