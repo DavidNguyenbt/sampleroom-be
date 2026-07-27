@@ -129,6 +129,10 @@ class CreateProductionData(BaseModel):
 class ProductionResponse(BaseModel):
     production_id: str
 
+class ProductionProgressExistsResponse(BaseModel):
+    production_id: str
+    department: str
+
 class ProductionProgressResponse(BaseModel):
     production_id: str
     order_date: date | None = None

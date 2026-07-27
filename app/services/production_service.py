@@ -1,5 +1,5 @@
 from app.repositories.production_repository import ProductionRepository
-from app.models.model import CreateProductionData, ProductionProgressResponse, ProductionResponse, PatternDataResponse, ManpowerOperatorData
+from app.models.model import CreateProductionData, ProductionProgressExistsResponse, ProductionProgressResponse, ProductionResponse, PatternDataResponse, ManpowerOperatorData
 
 class ProductionService:
     def __init__(self, production_repository: ProductionRepository | None = None):
@@ -35,8 +35,8 @@ class ProductionService:
     def update_production_data(self, production_id: str, updated_by: str, customer: str, department: str) -> None:
         self.production_repository.update_production_data(production_id, updated_by, customer, department)
 
-    def check_production_progress_exists(self, docno: str, department: str, customer: str) -> bool:
+    def check_production_progress_exists(self, docno: str, department: str, customer: str) -> ProductionResponse:
         return self.production_repository.check_production_progress_exists(docno, department, customer)
 
-    def check_production_exists(self, docno: str, customer: str) -> bool:
-        return self.production_repository.check_production_exists(docno, customer)
+    def check_production_exists(self, docno: str, customer: str, department: str) -> ProductionProgressExistsResponse:
+        return self.production_repository.check_production_exists(docno, customer, department)

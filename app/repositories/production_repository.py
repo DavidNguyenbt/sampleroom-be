@@ -1,4 +1,4 @@
-from app.models.model import CreateProductionData, DocnoDataResponse, ManpowerOperatorData, ProductionProgressResponse, ProductionResponse, PatternDataResponse
+from app.models.model import CreateProductionData, DocnoDataResponse, ManpowerOperatorData, ProductionProgressExistsResponse, ProductionProgressResponse, ProductionResponse, PatternDataResponse
 from app.repositories.base_repository import BaseRepository
 
 class ProductionRepository(BaseRepository):
@@ -109,20 +109,26 @@ class ProductionRepository(BaseRepository):
         params = (production_id, updated_by, customer, department)
         self.execute_non_query(query=query, params=params)
 
-    def check_production_progress_exists(self, docno: str, department: str, customer: str) -> bool:
+    def check_production_progress_exists(self, docno: str, department: str, customer: str) -> ProductionResponse:
         query = """
         EXEC [api].[SampleRoomQuery] 14, ?, ?, ?, '', ''
         """
         params = (docno, department, customer)
         results = self.execute_query(query=query, params=params)
 
-        return bool(results and results[0])
+        if not results or not results[0]:
+            raise RuntimeError("Failed to get production progress record")
+        
+        return ProductionResponse(**results[0][0])
 
-    def check_production_exists(self, docno: str, customer: str) -> bool:
+    def check_production_exists(self, docno: str, customer: str, department: str) -> ProductionProgressExistsResponse:
         query = """
-        EXEC [api].[SampleRoomQuery] 15, ?, ?, '', '', ''
+        EXEC [api].[SampleRoomQuery] 15, ?, ?, ?, '', ''
         """
-        params = (docno, customer)
+        params = (docno, customer, department)
         results = self.execute_query(query=query, params=params)
 
-        return bool(results and results[0])
+        if not results or not results[0]:
+            raise RuntimeError("Failed to get production record")
+
+        return ProductionProgressExistsResponse(**results[0][0])
