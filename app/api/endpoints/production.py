@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.models.model import CreateOperatorData, CreateProductionData, DocnoDataResponse, ManpowerOperatorData, ProductionProgressResponse, ProductionResponse, PatternDataResponse
+from app.models.model import CreateOperatorData, CreateProductionData, DocnoDataResponse, ManpowerOperatorData, ProductionProgressResponse, ProductionResponse, PatternDataResponse, ProductionProgressExistsResponse
 from app.services.production_service import ProductionService
 
 production_router = APIRouter()
@@ -157,7 +157,7 @@ def update_production_data(
             status_code=500,
             detail=str(e),
         )
-@production_router.get("/production_exists/{docno}/{customer}/{department}", response_model=bool)
+@production_router.get("/production_exists/{docno}/{customer}/{department}", response_model=ProductionProgressExistsResponse)
 def check_production_exists(
     docno: str,
     customer: str,
@@ -172,7 +172,7 @@ def check_production_exists(
             detail=str(e),
         )  
 
-@production_router.get("/production_progress_exists/{docno}/{department}/{customer}", response_model=bool)
+@production_router.get("/production_progress_exists/{docno}/{department}/{customer}", response_model=ProductionResponse)
 def check_production_progress_exists(
     docno: str,
     department: str,
