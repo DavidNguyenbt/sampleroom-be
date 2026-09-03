@@ -1,6 +1,6 @@
-from typing import List
 from datetime import date, datetime
-
+from pydantic import BaseModel
+from typing import List
 from pydantic import BaseModel
 
 class Overview(BaseModel):
@@ -104,6 +104,7 @@ class ManpowerOperatorData(BaseModel):
     Operator: str
     CreatedDate: datetime
     CreatedBy: str
+    Department: str
 
 class ManpowerDataResponse(BaseModel):
     manpower: List[ManpowerData]
@@ -163,3 +164,28 @@ class OperatorRemoveData(BaseModel):
     production_id: str
     operator: str
     removed_by: str
+
+class InputvsFinishData(BaseModel):
+    monthinput: float
+    monthfinished: float
+    todayinput: float
+    todayfinished: float
+
+class ProductionStatusData(BaseModel):
+    order_date: date | None = None
+    sample_number: str | None = None
+    style: str | None = None
+    season: str | None = None
+    sample_owner: str | None = None
+    qty: int | None = None
+    smv: float | None = None
+    currentstatus: str | None = None
+    shipment: date | None = None
+
+class DashboardData(BaseModel):
+    cutting : InputvsFinishData
+    embroidery: InputvsFinishData
+    heattransfer: InputvsFinishData
+    padprint: InputvsFinishData
+    sewing: InputvsFinishData
+    statusdata : List[ProductionStatusData]
