@@ -23,11 +23,37 @@ class DashboardRepository(BaseRepository):
                     statusdata=[ProductionStatusData()]
                 )
 
+            metric_fields = (
+                "monthinput",
+                "monthfinished",
+                "todayinput",
+                "todayfinished",
+            )
+            input_vs_finish = []
+            for index in range(5):
+                if len(results) > index and results[index]:
+                    row = results[index][0]
+                    metric_data = {
+                        field: row.get(field) if row.get(field) is not None else 0
+                        for field in metric_fields
+                    }
+                    input_vs_finish.append(InputvsFinishData(**metric_data))
+                else:
+                    input_vs_finish.append(
+                        InputvsFinishData(
+                            monthinput=0,
+                            monthfinished=0,
+                            todayinput=0,
+                            todayfinished=0,
+                        )
+                    )
+            status_rows = results[5] if len(results) > 5 else []
+
             return DashboardData(
-                cutting=InputvsFinishData(**results[0][0]),
-                embroidery=InputvsFinishData(**results[1][0]),
-                heattransfer=InputvsFinishData(**results[2][0]),
-                padprint=InputvsFinishData(**results[3][0]),
-                sewing=InputvsFinishData(**results[4][0]),
-                statusdata=[ProductionStatusData(**r) for r in results[5]]
+                cutting=input_vs_finish[0],
+                embroidery=input_vs_finish[1],
+                heattransfer=input_vs_finish[2],
+                padprint=input_vs_finish[3],
+                sewing=input_vs_finish[4],
+                statusdata=[ProductionStatusData(**row) for row in status_rows],
             )
