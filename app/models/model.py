@@ -103,8 +103,6 @@ class ManpowerOperatorData(BaseModel):
     ProductionID: str
     Operator: str
     CreatedDate: datetime
-    CreatedBy: str
-    Department: str
 
 class ManpowerDataResponse(BaseModel):
     manpower: List[ManpowerData]
