@@ -40,3 +40,6 @@ class ProductionService:
 
     def check_production_exists(self, docno: str, customer: str, department: str) -> ProductionProgressExistsResponse:
         return self.production_repository.check_production_exists(docno, customer, department)
+
+    def start_progress(self, production_id: str, doc_no: str, user_by: str, department: str, section : str) -> None:
+        self.production_repository.start_progress(production_id, doc_no, user_by, department, section)

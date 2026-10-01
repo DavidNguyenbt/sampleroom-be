@@ -132,3 +132,10 @@ class ProductionRepository(BaseRepository):
             raise RuntimeError("Failed to get production record")
 
         return ProductionProgressExistsResponse(**results[0][0])
+
+    def start_progress(self, production_id: str, doc_no: str, user_by: str, department: str, section : str) -> None:
+        query = """
+        EXEC [api].[SampleRoomQuery] 17, ?, ?, ?, ?, ?
+        """
+        params = (production_id, doc_no, user_by, department, section)
+        self.execute_non_query(query=query, params=params)

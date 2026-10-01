@@ -186,3 +186,21 @@ def check_production_progress_exists(
             status_code=500,
             detail=str(e),
         )
+
+@production_router.post("/start_progress/{production_id}/{doc_no}/{user_by}/{department}/{section}", response_model=None)
+def start_progress(
+    production_id: str,
+    doc_no: str,
+    user_by: str,
+    department: str,
+    section: str,
+    service: ProductionService = Depends(get_production_service),
+):
+    try:
+        service.start_progress(production_id=production_id, doc_no=doc_no, user_by=user_by, department=department, section=section)
+        return None
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
